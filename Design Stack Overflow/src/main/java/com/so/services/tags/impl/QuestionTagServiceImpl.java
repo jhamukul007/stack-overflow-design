@@ -50,6 +50,11 @@ public class QuestionTagServiceImpl implements QuestionTagService {
     }
 
     @Override
+    public List<QuestionTag> getQuestionTagsByQuestionsId(@NonNull Long questionId) {
+        return questionTagRepo.findByQuestionId(questionId);
+    }
+
+    @Override
     public List<QuestionTag> findAll() {
         return questionTagRepo.findAll();
     }

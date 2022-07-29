@@ -28,7 +28,7 @@ public class Answer extends BaseEntity{
     @OneToOne(targetEntity = Members.class, cascade = CascadeType.ALL)
     private Members members;
 
-    @OneToOne(targetEntity = Question.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(targetEntity = Question.class, cascade = CascadeType.ALL)
     private Question question;
 
     @Enumerated(EnumType.STRING)

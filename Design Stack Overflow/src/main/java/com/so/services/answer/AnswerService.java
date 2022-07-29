@@ -11,4 +11,5 @@ public interface AnswerService extends BaseService<Answer> {
     Optional<AnswerDto> createAnswer(AnswerDto answerDto);
     Optional<AnswerDto> editAnswer(AnswerDto answerDto);
     List<AnswerDto> getAnswersByQuestionId(Long answerId, int pageSize, int page);
+    List<Answer> getAnswersByQuestionIdAndPage(Long questionId, int pageSize, int page);
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/question")
@@ -57,6 +58,8 @@ public class QuestionController {
     public List<Question> searchQuestion(@RequestParam("title") String title, @RequestParam("page") int page,
                                          @RequestParam("size") int size) {
         return questionService.searchQuestion(title, page, size);
+        Optional<String> abs= Optional.empty();
+        abs.isPresent()
     }
 
 }

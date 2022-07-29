@@ -15,4 +15,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Badges extends BaseEntity{
     private String title;
+    private int ranking;
+    private double startPoint;
+    private double endPoint;
 }

@@ -12,4 +12,7 @@ import java.util.List;
 public interface QuestionTagRepo extends JpaRepository<QuestionTag, Long> {
     @Query("select qt from QuestionTag qt where qt.questionId.id in :questionIds")
     List<QuestionTag> findByQuestionIdIn(@Param("questionIds") List<Long> questionIds);
+
+    @Query("select qt from QuestionTag qt where qt.questionId.id = :questionId")
+    List<QuestionTag> findByQuestionId(@Param("questionId") Long questionId);
 }

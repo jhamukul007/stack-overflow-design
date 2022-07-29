@@ -18,8 +18,11 @@ import javax.persistence.Table;
 @Table
 @NoArgsConstructor
 public class UserBadges extends BaseEntity{
-    private Long batchId;
+
+    @OneToOne(cascade = CascadeType.ALL, targetEntity = Badges.class)
+    private Badges badges;
 
     @OneToOne(cascade = CascadeType.ALL, targetEntity = Members.class)
     private Members member;
+
 }

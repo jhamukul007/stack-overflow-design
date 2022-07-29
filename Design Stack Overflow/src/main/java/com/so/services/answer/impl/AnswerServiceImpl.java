@@ -52,18 +52,20 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public Optional<AnswerDto> createAnswer(AnswerDto answerDto) {
         Optional<Members> members = memberService.findById(answerDto.getMemberId());
-        if(members.isEmpty())
+        if (members.isEmpty())
             throw new OperationNotAllowedException("You are not allowed to answer question");
-        Optional<Question> question =  questionService.findById(answerDto.getQuestionId());
-        if(question.isEmpty())
+        Optional<Question> question = questionService.findById(answerDto.getQuestionId());
+        if (question.isEmpty())
             throw new NotFoundException("question does not exist or removed due to policy violation");
-        if(QuestionStatus.CLOSED.equals(question.get().getQuestionStatus()))
+        if (QuestionStatus.CLOSED.equals(question.get().getQuestionStatus()))
             throw new OperationNotAllowedException("Question marked closed");
 
         Answer answer = modelMapper.map(answerDto, Answer.class);
+        answer.setMembers(members.get());
+        answer.setQuestion(question.get());
         answer.setAnswerStatus(AnswerStatus.ACTIVE);
         saveOrUpdateTx(answer);
-        answer.setMembers(members.get());
+
         saveOrUpdateTx(answer);
         return Optional.of(modelMapper.map(answer, AnswerDto.class));
     }
@@ -77,9 +79,15 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public List<AnswerDto> getAnswersByQuestionId(Long answerId, int pageSize, int page) {
-        PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("modifiedDate")));
+        PageRequest pageRequest = PageRequest.of(page-1, pageSize, Sort.by(Sort.Order.desc("modifiedDate")));
         return answerDto.findByQuestionId(answerId, pageRequest).stream().map(answer ->
                 modelMapper.map(answer, AnswerDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Answer> getAnswersByQuestionIdAndPage(Long questionId, int pageSize, int page) {
+        PageRequest pageRequest = PageRequest.of(page-1, pageSize, Sort.by(Sort.Order.asc("modifiedDate")));
+        return answerDto.findByQuestionId(questionId, pageRequest);
     }
 
 }

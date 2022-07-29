@@ -23,4 +23,5 @@ public class Members extends BaseEntity{
     @Column(unique = true)
     private String userId;
     //private String password;
+    private Double points = 0D;
 }

@@ -1,9 +1,11 @@
 package com.so.controllers;
 
 import com.so.enums.QuestionStatus;
+import com.so.models.Badges;
 import com.so.models.Members;
 import com.so.models.Question;
 import com.so.models.Tags;
+import com.so.services.badges.BadgesService;
 import com.so.services.member.MemberService;
 import com.so.services.question.QuestionService;
 import com.so.services.tags.QuestionTagService;
@@ -25,6 +27,7 @@ public class DataFillController {
     private final QuestionService questionService;
     private final QuestionTagService questionTagService;
     private final MemberService memberService;
+    private final BadgesService badgesService;
 
     @PostMapping("/tags")
     public String createTags() {
@@ -91,6 +94,7 @@ public class DataFillController {
 
     @PostMapping("/all")
     public String createDummyData() {
+        addBadges();
         createTags();
         List<Members> members = createMembers();
         createQuestion(members);
@@ -129,5 +133,27 @@ public class DataFillController {
         List<Question> questions = questionService.saveAll(List.of(question, question1));
         questions.forEach(que ->
                 questionTagService.saveQuestionTag(que, List.of(1L,2L,3L)));
+    }
+
+    void addBadges(){
+        Badges b1 = new Badges();
+        b1.setTitle("Gold");
+        b1.setRanking(5);
+        b1.setStartPoint(500);
+        b1.setStartPoint(2500);
+
+        Badges b2 = new Badges();
+        b2.setTitle("Bronze");
+        b2.setRanking(1);
+        b2.setStartPoint(50);
+        b2.setStartPoint(125);
+
+        Badges b3 = new Badges();
+        b3.setTitle("Bronze");
+        b3.setRanking(1);
+        b3.setStartPoint(126);
+        b3.setStartPoint(499);
+
+        badgesService.saveAll(List.of(b1, b2, b3));
     }
 }
